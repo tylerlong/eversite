@@ -1,0 +1,9 @@
+<% if Rails.env.development? %>
+<pre class="debug_dump">
+params: <%= params %>
+original_url: <%= request.original_url %>
+ip: <%= request.ip %>
+method: <%= request.method %>
+server_software: <%= request.server_software %>
+</pre>
+<% end %>

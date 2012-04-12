@@ -1,0 +1,11 @@
+common: &common
+  site_name: 'everblog'
+
+development:
+  <<: *common
+
+test:
+  <<: *common
+
+production:
+  <<: *common

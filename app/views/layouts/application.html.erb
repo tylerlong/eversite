@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>EverblogRails</title>
-  <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag "application" %>
-  <%= csrf_meta_tags %>
+<title><%= yield(:title) %> | <%= CONFIG["site_name"] %></title>
+<%= stylesheet_link_tag    "application", :media => "all" %>
+<%= javascript_include_tag "application" %>
+<%= csrf_meta_tags %>
+<%= render 'layouts/shim' %>
 </head>
 <body>
-
+<div class="container">
+<%= render 'layouts/header' %>
+<%= render 'layouts/flash', flash: flash %>
 <%= yield %>
-
+<%= render 'layouts/footer' %>
+<%= render 'layouts/debug' %>
+</div>
 </body>
 </html>
