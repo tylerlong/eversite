@@ -1,9 +1,6 @@
-<% provide(:title, "Blog") %>
+<% provide(:title, 'Blog entries') %>
+<table class="table">
 <% @notes.each do |note| %>
-<%= note.title %><br/>
+<tr><td><%= link_to(note.title, blog_path(guid: note.guid)) %></td></tr>
 <% end %>
-
-<hr/>
-
-<%= @note.title %><br/>
-<%= @note.content %><br/>
+</table>

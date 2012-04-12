@@ -4,6 +4,8 @@ EverblogRails::Application.routes.draw do
 
   root to: 'evernotes#index'
 
+  match '/blog', to: 'evernotes#show'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
