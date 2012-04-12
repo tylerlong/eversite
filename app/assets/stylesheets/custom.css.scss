@@ -1,0 +1,10 @@
+// First import bootswatch variables
+@import "bootswatch/readable/variables";
+
+// Then bootstrap itself
+@import "bootstrap";
+
+// And finally bootswatch style itself
+@import "bootswatch/readable/bootswatch";
+
+// Other self-defined styles goes below
