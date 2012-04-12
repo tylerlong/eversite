@@ -1,4 +1,6 @@
 EverblogRails::Application.routes.draw do
+
+  match '/evernote', to: 'evernote#index'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
