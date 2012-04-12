@@ -1,5 +1,5 @@
 common: &common
-  site_name: 'everblog'
+  site_name: 'Everblog'
 
 development:
   <<: *common

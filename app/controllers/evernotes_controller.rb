@@ -1,4 +1,4 @@
-class EvernoteController < ApplicationController
+class EvernotesController < ApplicationController
   def index
     require 'evernote'
 
@@ -27,5 +27,8 @@ class EvernoteController < ApplicationController
     @notes = note_store.findNotes(auth_token, Evernote::EDAM::NoteStore::NoteFilter.new(notebookGuid: notebook.guid), 0, 1000).notes
 
     @note = note_store.getNote(auth_token, @notes[1].guid, true, true, true, true)
+  end
+
+  def show
   end
 end

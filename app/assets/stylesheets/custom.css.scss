@@ -1,10 +1,15 @@
+// Example using journal bootswatch
+
 // First import bootswatch variables
-@import "bootswatch/readable/variables";
+@import "bootswatch/journal/variables";
 
 // Then bootstrap itself
 @import "bootstrap";
 
+// Bootstrap body padding for fixed navbar
+body { padding-top: 60px; }
+
 // And finally bootswatch style itself
-@import "bootswatch/readable/bootswatch";
+@import "bootswatch/journal/bootswatch";
 
 // Other self-defined styles goes below
