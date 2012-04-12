@@ -1,3 +1,21 @@
+GIT
+  remote: git://github.com/McRipper/evernote.git
+  revision: 1c4cf408b53f9d434d46a30b49f397ce2d561d0f
+  specs:
+    evernote (1.2.0)
+
+GIT
+  remote: git://github.com/McRipper/thrift-1.9.3.git
+  revision: 638756ad38c9c88c7462560048126ac43bfe2772
+  specs:
+    thrift (0.9.0.1)
+
+GIT
+  remote: git://github.com/McRipper/thrift_client.git
+  revision: 553e46bdb16b9c738912ba203ef17ae92cd81071
+  specs:
+    thrift_client (0.8.1)
+
 GEM
   remote: http://ruby.taobao.org/
   specs:
@@ -158,6 +176,7 @@ DEPENDENCIES
   bootswatch-rails
   capybara
   coffee-rails
+  evernote (~> 1.2.0)!
   guard-rspec
   guard-spork
   jquery-rails
@@ -168,4 +187,6 @@ DEPENDENCIES
   rspec-rails
   sass-rails
   spork
+  thrift!
+  thrift_client (~> 0.8.1)!
   uglifier
