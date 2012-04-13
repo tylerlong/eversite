@@ -29,7 +29,7 @@ class EvernotesController < ApplicationController
       note_store.findNotes(auth_token, Evernote::EDAM::NoteStore::NoteFilter.new(notebookGuid: notebook.guid), 0, 1000).notes
     end
 
-    CONTENT_REGEXP = /<en-note>(.+?)<\/en-note>/m
+    CONTENT_REGEXP = /<en-note[^>]*?>(.+?)<\/en-note>/m
     def get_note(guid)
       note_store, auth_token = authenticate
       note = note_store.getNote(auth_token, guid, true, true, true, true)

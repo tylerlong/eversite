@@ -1,5 +1,5 @@
 <% provide(:title, 'Blog entries') %>
-<table class="table">
+<table class="table table-striped">
 <% @notes.each do |note| %>
 <tr><td><%= link_to(note.title, blog_path(guid: note.guid)) %></td></tr>
 <% end %>
