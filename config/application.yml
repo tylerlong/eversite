@@ -1,5 +1,11 @@
 common: &common
-  site_name: 'Everblog'
+  site_name: Everblog
+  evernote_domain: sandbox.evernote.com
+  evernote_config:
+    username: tylerlong
+    password: '123456'
+    consumer_key: dvjohnston
+    consumer_secret: 735e66c24ca3b232
 
 development:
   <<: *common

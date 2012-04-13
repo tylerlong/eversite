@@ -1,4 +1,4 @@
-<% provide(:title, @note.title) %>
-<%= @note.title %>
-<hr/>
-<%= @note.content %>
+<% provide(:title, @note[:title]) %>
+<h1><%= @note[:title] %></h1>
+<br/><br/>
+<%=raw @note[:content] %>
