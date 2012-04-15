@@ -4,8 +4,13 @@ common: &common
   evernote_config:
     username: tylerlong
     password: '123456'
-    consumer_key: dvjohnston
-    consumer_secret: 735e66c24ca3b232
+    consumer_key: tylerlong
+    consumer_secret: c9a682d60f9a442c
+  notebooks:
+    - name: Blog
+      route: /
+    - name: 博客
+      route: /cn/
 
 development:
   <<: *common
