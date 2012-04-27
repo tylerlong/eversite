@@ -1,5 +1,5 @@
 common: &common
-  site_name: Everblog
+  site_name: Eversite
   evernote_domain: sandbox.evernote.com
   evernote_config:
     username: tylerlong
