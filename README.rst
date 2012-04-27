@@ -1,9 +1,14 @@
-==============
-everblog_rails
-==============
+eversite
+========
+build and maintain your website right inside your evernote.
 
-Write notes in Evernotes, then sync them to your blog. Isn't it cool?
+|
 
-This is the Ruby on Rails version of the original `everblog`_ program which is written in Python.
+configuration
+-------------
+edit config/application.yml, change the following settings:
 
-.. _`everblog`: https://github.com/tylerlong/everblog
+- site_name: the name of you website
+- username: username of your evernote account
+- password: password of your evernote account
+- notebooks: notebooks in your evernote

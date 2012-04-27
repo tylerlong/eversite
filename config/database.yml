@@ -7,8 +7,8 @@ common: &common
 
 development:
   <<: *common
-  database: everblog_rails_dev
+  database: eversite_dev
 
 test:
   <<: *common
-  database: everblog_rails_test
+  database: eversite_test
