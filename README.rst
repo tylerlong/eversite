@@ -4,6 +4,15 @@ build and maintain your website right inside your evernote.
 
 |
 
+quick start
+-----------
+git clone git://github.com/tylerlong/eversite.git && cd eversite
+bundle install --binstubs ./bundler_stubs
+modify file config/application.yml
+rails s
+
+|
+
 configuration
 -------------
 edit config/application.yml, change the following settings:
