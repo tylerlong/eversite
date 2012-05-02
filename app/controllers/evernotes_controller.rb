@@ -1,8 +1,20 @@
 require 'evernote'
 
 class EvernotesController < ApplicationController
-  def index
-    @notes = get_notes_list
+
+  def common
+    link = CONFIG['links'].select { |link| link['path'] == request.path }.first
+    resource = link['resource']
+    case resource['type']
+    when 'notebook'
+      @notes = get_notes_list(resource['name'])
+      return render 'index'
+    when 'note'
+      @note = get_note(resource['guid'])
+      return render 'show'
+    else
+      raise ActiveRecord::NotFound
+    end
   end
 
   def show
@@ -21,11 +33,9 @@ class EvernotesController < ApplicationController
       return note_store, auth_token
     end
 
-    def get_notes_list
+    def get_notes_list(notebook_name)
       note_store, auth_token = authenticate
-      notebook = note_store.listNotebooks(auth_token).select do |notebook|
-        notebook.name.downcase == "blog"
-      end[0]
+      notebook = note_store.listNotebooks(auth_token).select { |notebook| notebook.name.force_encoding('utf-8') == notebook_name }.first
       note_store.findNotes(auth_token, Evernote::EDAM::NoteStore::NoteFilter.new(notebookGuid: notebook.guid), 0, 1000).notes
     end
 
@@ -34,6 +44,6 @@ class EvernotesController < ApplicationController
       note_store, auth_token = authenticate
       note = note_store.getNote(auth_token, guid, true, true, true, true)
       CONTENT_REGEXP =~ note.content
-      { title: note.title, content: $1 }
+      { title: note.title.force_encoding('utf-8'), content: $1.force_encoding('utf-8') }
     end
 end

@@ -1,16 +1,37 @@
 common: &common
   site_name: Eversite
-  evernote_domain: sandbox.evernote.com
+  evernote_domain: www.evernote.com
   evernote_config:
-    username: tylerlong
-    password: '123456'
+    username: username
+    password: password
     consumer_key: tylerlong
     consumer_secret: c9a682d60f9a442c
-  notebooks:
-    - name: Blog
-      route: /
-    - name: 博客
-      route: /cn/
+  links:
+    - text: Blog
+      path: /
+      resource:
+        type: notebook
+        name: Blog
+    - text: 博客
+      path: /cn
+      resource:
+        type: notebook
+        name: 博客
+    - text: Projects
+      path: /projects
+      resource:
+        type: note
+        guid: 04bfd5ca-3917-4484-977b-a622840990c9
+    - text: Talks
+      path: /talks
+      resource:
+        type: note
+        guid: c732880a-44e4-4ab8-b2b3-570dedf1232f
+    - text: About
+      path: /about
+      resource:
+        type: note
+        guid: f0df80b6-70c2-4858-b916-6e09b20a080d
 
 development:
   <<: *common

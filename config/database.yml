@@ -1,9 +1,9 @@
 common: &common
   adapter: postgresql
+  encoding: unicode
+  pool: 5
   username: tyler
   password: 123456
-  pool: 5
-  timeout: 5000
 
 development:
   <<: *common

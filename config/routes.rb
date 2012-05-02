@@ -1,10 +1,12 @@
 EverblogRails::Application.routes.draw do
 
-  resources :evernotes
+  root to: 'evernotes#common'
 
-  root to: 'evernotes#index'
+  CONFIG['links'].each do |link|
+    match link['path'], to: 'evernotes#common'
+  end
 
-  match '/blog', to: 'evernotes#show'
+  match '/:guid', to: 'evernotes#show', guid: /[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}/, as: :note
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
