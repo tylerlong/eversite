@@ -4,6 +4,12 @@ build and maintain your website right inside your evernote.
 
 |
 
+live demo
+---------
+http://tylerlong.herokuapp.com
+
+|
+
 quick start
 -----------
 git clone git://github.com/tylerlong/eversite.git && cd eversite
