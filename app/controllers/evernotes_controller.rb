@@ -1,16 +1,17 @@
 require 'evernote'
+require 'date'
 
 class EvernotesController < ApplicationController
 
   def common
-    link = CONFIG['links'].select { |link| link['path'] == request.path }.first
+    link = CONFIG['links'].select { |link| add_trailing_slash(link['path']) == add_trailing_slash(request.path) }.first
     resource = link['resource']
     case resource['type']
     when 'notebook'
       @notes = get_notes_list(resource['name'])
       return render 'index'
     when 'note'
-      @note = get_note(resource['guid'])
+      @note = get_note_by_guid(resource['guid'])
       return render 'show'
     else
       raise ActiveRecord::NotFound
@@ -18,7 +19,8 @@ class EvernotesController < ApplicationController
   end
 
   def show
-    @note = get_note(params[:guid])
+    created = DateTime.strptime(params[:created], '%s').strftime('%Y%m%dT%H%M%SZ')
+    @note = get_note_by_created(created)
   end
 
   private
@@ -40,10 +42,17 @@ class EvernotesController < ApplicationController
     end
 
     CONTENT_REGEXP = /<en-note[^>]*?>(.+?)<\/en-note>/m
-    def get_note(guid)
+    def get_note_by_guid(guid)
       note_store, auth_token = authenticate
       note = note_store.getNote(auth_token, guid, true, true, true, true)
       CONTENT_REGEXP =~ note.content
       { title: note.title.force_encoding('utf-8'), content: $1.force_encoding('utf-8') }
+    end
+    def get_note_by_created(created)
+      note_store, auth_token = authenticate
+      note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(words: "created:#{created}",
+        order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: true)
+      note = note_store.findNotes(auth_token, note_filter, 0, 1).notes.first
+      get_note_by_guid(note.guid)
     end
 end

@@ -6,7 +6,7 @@ EverblogRails::Application.routes.draw do
     match link['path'], to: 'evernotes#common'
   end
 
-  match '/:guid', to: 'evernotes#show', guid: /[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}/, as: :note
+  match '/:created/', to: 'evernotes#show', created: /[1-9]\d{9}/, as: :note
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

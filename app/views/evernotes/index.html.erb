@@ -1,6 +1,7 @@
 <% provide(:title, 'Blog entries') %>
 <table class="table table-striped">
 <% @notes.each do |note| %>
-<tr><td><%= link_to(note.title.force_encoding('utf-8'), note_path(guid: note.guid)) %></td></tr>
+<tr><td><%= link_to(note.title.force_encoding('utf-8'),
+  note_path(created: note.created/1000, trailing_slash: true)) %></td></tr>
 <% end %>
 </table>

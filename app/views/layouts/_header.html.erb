@@ -5,7 +5,7 @@
 <ul class="nav pull-right">
 <% CONFIG['links'].each do |link| %>
 <li class="divider-vertical"></li>
-<li><%= link_to(link['text'], link['path']) %></li>
+<li><%= link_to(link['text'], add_trailing_slash(link['path'])) %></li>
 <% end %>
 </ul>
 </div>
