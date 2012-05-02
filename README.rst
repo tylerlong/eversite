@@ -39,3 +39,6 @@ todo list
 - tags cloud
 - pagination
 - blog entry snippet
+- integrate disqus comments
+- delete database configuration?
+- test image showing

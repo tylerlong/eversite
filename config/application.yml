@@ -32,6 +32,13 @@ common: &common
       resource:
         type: note
         guid: f0df80b6-70c2-4858-b916-6e09b20a080d
+  footer_links:
+    - text: Twitter
+      url: https://twitter.com/tylerlon
+    - text: Github
+      url: https://github.com/tylerlong
+    - text: Bitbucket
+      url: https://bitbucket.org/tylerlong
 
 development:
   <<: *common
