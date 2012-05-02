@@ -27,6 +27,7 @@ edit config/application.yml, change the following settings:
 - username: username of your evernote account
 - password: password of your evernote account
 - links: links show on the header
+- footer_links: links show on the footer
 
 |
 

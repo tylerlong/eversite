@@ -2,6 +2,6 @@
 <footer class="footer">
 &copy; 2012 <a href="http://tylerlong.me" target="_blank">Tyler Long</a> all rights reserved.
 <span class="pull-right">
-<%= CONFIG['footer_links'].map { |link| link_to(link['text'], link['url'], target: '_blank') }.join(' | ').html_safe %>
+Contact me via <%= CONFIG['footer_links'].map { |link| link_to(link['text'], link['url'], target: '_blank') }.join(' | ').html_safe %>
 </span>
 </footer>
