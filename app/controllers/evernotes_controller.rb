@@ -2,25 +2,24 @@ require 'evernote'
 require 'date'
 
 class EvernotesController < ApplicationController
-
   def common
-    link = CONFIG['links'].select { |link| add_trailing_slash(link['path']) == add_trailing_slash(request.path) }.first
+    link = CONFIG['links'].select { |link| add_trailing_slash(link['path']) == add_trailing_slash(request.path) }.first || not_found
     resource = link['resource']
     case resource['type']
     when 'notebook'
-      @notes = get_notes_list(resource['name'])
+      @notes = get_notes_list(resource['name']) || not_found
       return render 'index'
     when 'note'
-      @note = get_note_by_guid(resource['guid'])
+      @note = get_note_by_guid(resource['guid']) || not_found
       return render 'show'
     else
-      raise ActionController::RoutingError.new('Not Found')
+      not_found
     end
   end
 
   def show
     created = DateTime.strptime(params[:created], '%s').strftime('%Y%m%dT%H%M%SZ')
-    @note = get_note_by_created(created)
+    @note = get_note_by_created(created) || not_found
   end
 
   private
@@ -37,22 +36,24 @@ class EvernotesController < ApplicationController
 
     def get_notes_list(notebook_name)
       note_store, auth_token = authenticate
-      notebook = note_store.listNotebooks(auth_token).select { |notebook| notebook.name.force_encoding('utf-8') == notebook_name }.first
+      notebook = note_store.listNotebooks(auth_token).select { |notebook| notebook.name.force_encoding('utf-8') == notebook_name }.first || not_found
       note_store.findNotes(auth_token, Evernote::EDAM::NoteStore::NoteFilter.new(notebookGuid: notebook.guid), 0, 1000).notes
     end
 
     CONTENT_REGEXP = /<en-note[^>]*?>(.+?)<\/en-note>/m
+
     def get_note_by_guid(guid)
       note_store, auth_token = authenticate
-      note = note_store.getNote(auth_token, guid, true, true, true, true)
+      note = note_store.getNote(auth_token, guid, true, true, true, true) || not_found
       CONTENT_REGEXP =~ note.content
       { title: note.title.force_encoding('utf-8'), content: $1.force_encoding('utf-8') }
     end
+
     def get_note_by_created(created)
       note_store, auth_token = authenticate
       note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(words: "created:#{created}",
         order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: true)
-      note = note_store.findNotes(auth_token, note_filter, 0, 1).notes.first
+      note = note_store.findNotes(auth_token, note_filter, 0, 1).notes.first || not_found
       get_note_by_guid(note.guid)
     end
 end
