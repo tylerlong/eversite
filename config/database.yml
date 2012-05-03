@@ -1,14 +1,14 @@
-common: &common
-  adapter: postgresql
-  encoding: unicode
-  pool: 5
-  username: tyler
-  password: 123456
+# common: &common
+#   adapter: postgresql
+#   encoding: unicode
+#   pool: 5
+#   username: tyler
+#   password: 123456
 
-development:
-  <<: *common
-  database: eversite_dev
+# development:
+#   <<: *common
+#   database: eversite_dev
 
-test:
-  <<: *common
-  database: eversite_test
+# test:
+#   <<: *common
+#   database: eversite_test
