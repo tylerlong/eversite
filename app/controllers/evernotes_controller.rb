@@ -14,7 +14,7 @@ class EvernotesController < ApplicationController
       @note = get_note_by_guid(resource['guid'])
       return render 'show'
     else
-      raise ActiveRecord::NotFound
+      raise ActionController::RoutingError.new('Not Found')
     end
   end
 
