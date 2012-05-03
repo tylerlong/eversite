@@ -8,6 +8,7 @@ class EvernotesController < ApplicationController
     case resource['type']
     when 'notebook'
       @notes = get_notes_list(resource['name']) || not_found
+      @title = link['text']
       return render 'index'
     when 'note'
       @note = get_note_by_guid(resource['guid']) || not_found

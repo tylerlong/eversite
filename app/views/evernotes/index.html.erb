@@ -1,4 +1,4 @@
-<% provide(:title, 'Blog entries') %>
+<% provide(:title, @title) %>
 <table class="table table-striped">
 <% @notes.each do |note| %>
 <tr><td><%= link_to(note.title.force_encoding('utf-8'),
