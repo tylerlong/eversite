@@ -43,8 +43,6 @@ common: &common
       url: https://github.com/tylerlong
     - text: Bitbucket
       url: https://bitbucket.org/tylerlong
-    - text: Stackoverflow
-      url: http://stackoverflow.com/users/862862/tyler-long
 
 development:
   <<: *common
