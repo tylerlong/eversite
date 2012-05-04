@@ -21,22 +21,22 @@ common: &common
         type: notebook
         name: Blog
     - text: 博客
-      path: /cn/
+      path: /cn
       resource:
         type: notebook
         name: 博客
     - text: Projects
-      path: /projects/
+      path: /projects
       resource:
         type: note
         guid: 04bfd5ca-3917-4484-977b-a622840990c9
     - text: Talks
-      path: /talks/
+      path: /talks
       resource:
         type: note
         guid: c732880a-44e4-4ab8-b2b3-570dedf1232f
     - text: About
-      path: /about/
+      path: /about
       resource:
         type: note
         guid: f0df80b6-70c2-4858-b916-6e09b20a080d

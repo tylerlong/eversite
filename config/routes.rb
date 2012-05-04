@@ -3,7 +3,12 @@ EverblogRails::Application.routes.draw do
   root to: 'evernotes#common'
 
   CONFIG['header_links'].each do |link|
-    match link['path'], to: 'evernotes#common'
+    if link['resource']['type'] == 'notebook'
+      match "#{link['path']}/:page/", to: 'evernotes#common',
+        page: /(?:[1-9]|[1-9]\d|[1-9]\d{2})/, defaults: { page: 1 }
+    else
+      match link['path'], to: 'evernotes#common'
+    end
   end
 
   match '/:created/', to: 'evernotes#show', created: /[1-9]\d{9}/, as: :note
