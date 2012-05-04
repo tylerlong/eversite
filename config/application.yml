@@ -10,7 +10,7 @@ common: &common
       consumer_secret: c9a682d60f9a442c
 
   disqus:
-    short_name: tylerlong
+    shortname: tylerlong
 
   header_links:
     - text: Blog
