@@ -13,3 +13,11 @@ body { padding-top: 60px; }
 @import "bootswatch/journal/bootswatch";
 
 // Other self-defined styles goes below
+div.entry-overview {
+  margin-bottom: 25px;
+}
+
+div.date {
+  text-align: right;
+  color: $gray;
+}

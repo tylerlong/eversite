@@ -1,7 +1,12 @@
 <% provide(:title, @title) %>
-<table class="table table-striped">
+
+<div class="row">
+<div class="span10 offset1">
 <% @notes.each do |note| %>
-<tr><td><%= format_timestamp(note.created) %></td><td><%= link_to(note.title.force_encoding('utf-8'),
-  note_path(created: note.created/1000, trailing_slash: true)) %></td></tr>
+  <div class="row entry-overview">
+    <div class="span2 date"><%= format_timestamp(note.created) %></div>
+    <div class="span7"><%= link_to(note.title.force_encoding('utf-8'), note_path(created: note.created/1000, trailing_slash: true)) %></div>
+  </div>
 <% end %>
-</table>
+</div>
+</div>
