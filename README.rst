@@ -38,6 +38,5 @@ todo list
 - tags cloud
 - pagination
 - blog entry snippet
-- integrate disqus comments
 - test image showing
 - use hashie to simplify hash accessing ?
