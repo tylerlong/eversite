@@ -181,6 +181,7 @@ DEPENDENCIES
   guard-spork
   jquery-rails
   libnotify
+  nokogiri
   pg
   rails
   rb-inotify

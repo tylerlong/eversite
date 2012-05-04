@@ -5,6 +5,7 @@ gem 'jquery-rails'
 gem 'pg'
 gem 'bootstrap-sass'
 gem 'bootswatch-rails'
+gem 'nokogiri'
 
 gem "evernote", "~> 1.2.0", :git => "git://github.com/McRipper/evernote.git"
 gem "thrift", :git => "git://github.com/McRipper/thrift-1.9.3.git"
