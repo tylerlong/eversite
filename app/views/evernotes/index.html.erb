@@ -9,3 +9,23 @@
     </div>
   </div>
 <% end %>
+
+<br/>
+
+<div class="row">
+<div class="offset3 span4">
+<% if @page > 1 %>
+<a href="#">« Previous</a>
+<% else %>
+« Previous
+<% end %>
+ — 
+<strong><%= @page %></strong>
+ — 
+<% if @has_next %>
+<a href="#">Next »</a>
+<% else %>
+Next »
+<% end %>
+</div>
+</div>

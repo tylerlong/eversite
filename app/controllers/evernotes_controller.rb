@@ -4,7 +4,12 @@ require 'nokogiri'
 
 class EvernotesController < ApplicationController
   def handle_notebooks(name)
-    @notes = get_notes_list(name) || not_found
+    @page = (params[:page] || '1').to_i
+    @notes = get_notes_list(name, @page) || not_found
+    if @notes.size > CONFIG['page_size']
+      @has_next = true
+      @notes = @notes[0..@notes.size - 1]
+    end
     render 'index'
   end
 
@@ -68,11 +73,11 @@ class EvernotesController < ApplicationController
       Nokogiri::HTML(content).text[0..128]
     end
 
-    def get_notes_list(notebook_name)
+    def get_notes_list(notebook_name, page)
       notebook = note_store.listNotebooks(auth_token).select { |notebook| notebook.name.force_encoding('utf-8') == notebook_name }.first || not_found
       note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(notebookGuid: notebook.guid,
         order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: false)
-      notes = note_store.findNotes(auth_token, note_filter, 0, 1000).notes
+      notes = note_store.findNotes(auth_token, note_filter, (page - 1) * CONFIG['page_size'], CONFIG['page_size'] + 1).notes
       notes.map { |note| { title: note.title.force_encoding('utf-8'), created: note.created, snippet: extract_snippet(get_note_by_guid(note.guid)[:content]) } }
     end
 
