@@ -14,7 +14,7 @@ class EvernotesController < ApplicationController
   end
 
   def handle_note(guid)
-    @note = get_note_by_guid(resource['guid']) || not_found
+    @note = get_note_by_guid(guid) || not_found
     render 'show'
   end
 
