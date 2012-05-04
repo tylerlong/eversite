@@ -1,6 +1,5 @@
 <% provide(:title, @note[:title]) %>
 <h1><%= @note[:title] %></h1>
 <br/><br/>
-<%=raw @note[:content] %>
-<br/>
+<%= raw @note[:content] %>
 <%= render 'disqus' %>

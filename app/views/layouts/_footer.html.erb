@@ -2,6 +2,6 @@
 <footer class="footer">
 &copy; 2012 all rights reserved, proudly powered by <%= link_to('eversite', 'https://github.com/tylerlong/eversite', target: '_blank') %>.
 <span class="pull-right">
-Contact me via: <%= CONFIG['footer_links'].map { |link| link_to(link['text'], link['url'], target: '_blank') }.join(', ').html_safe %>.
+Contact me via: <%= raw CONFIG['footer_links'].map { |link| link_to(link['text'], link['url'], target: '_blank') }.join(', ') %>.
 </span>
 </footer>
