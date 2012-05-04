@@ -1,7 +1,5 @@
 <% provide(:title, @title) %>
 
-<div class="row">
-<div class="span10 offset1">
 <% @notes.each do |note| %>
   <div class="row entry-overview">
     <div class="span2 date"><%= raw format_timestamp(note[:created]).split.join('<br/>') %></div>
@@ -11,5 +9,3 @@
     </div>
   </div>
 <% end %>
-</div>
-</div>

@@ -6,9 +6,6 @@
 // Then bootstrap itself
 @import "bootstrap";
 
-// Bootstrap body padding for fixed navbar
-body { padding-top: 60px; }
-
 // And finally bootswatch style itself
 @import "bootswatch/journal/bootswatch";
 
@@ -20,4 +17,10 @@ div.entry-overview {
 div.date {
   text-align: right;
   color: $gray;
+}
+
+div.bordered {
+  border-style: none dashed;
+  border-width: 1px;
+  border-color: $grayLight
 }
