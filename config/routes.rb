@@ -2,7 +2,7 @@ EverblogRails::Application.routes.draw do
 
   root to: 'evernotes#common'
 
-  CONFIG['links'].each do |link|
+  CONFIG['header_links'].each do |link|
     match link['path'], to: 'evernotes#common'
   end
 

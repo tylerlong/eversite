@@ -40,3 +40,4 @@ todo list
 - blog entry snippet
 - integrate disqus comments
 - test image showing
+- use hashie to simplify hash accessing ?

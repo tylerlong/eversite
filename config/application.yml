@@ -1,12 +1,13 @@
 common: &common
   site_name: Eversite
-  evernote_domain: www.evernote.com
-  evernote_config:
-    username: username
-    password: password
-    consumer_key: tylerlong
-    consumer_secret: c9a682d60f9a442c
-  links:
+  evernote:
+    domain: www.evernote.com
+    config:
+      username: username
+      password: password
+      consumer_key: tylerlong
+      consumer_secret: c9a682d60f9a442c
+  header_links:
     - text: Blog
       path: /
       resource:

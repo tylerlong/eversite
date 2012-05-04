@@ -3,7 +3,7 @@ require 'date'
 
 class EvernotesController < ApplicationController
   def common
-    link = CONFIG['links'].select { |link| add_trailing_slash(link['path']) == add_trailing_slash(request.path) }.first || not_found
+    link = CONFIG['header_links'].select { |link| add_trailing_slash(link['path']) == add_trailing_slash(request.path) }.first || not_found
     resource = link['resource']
     case resource['type']
     when 'notebook'
@@ -26,11 +26,11 @@ class EvernotesController < ApplicationController
   private
 
     def authenticate
-      user_store_url = "https://#{CONFIG['evernote_domain']}/edam/user"
-      user_store = Evernote::UserStore.new(user_store_url, CONFIG['evernote_config'])
+      user_store_url = "https://#{CONFIG['evernote']['domain']}/edam/user"
+      user_store = Evernote::UserStore.new(user_store_url, CONFIG['evernote']['config'])
       authentication = user_store.authenticate
       user, auth_token = authentication.user, authentication.authenticationToken
-      note_store_url = "http://#{CONFIG['evernote_domain']}/edam/note/#{user.shardId}"
+      note_store_url = "http://#{CONFIG['evernote']['domain']}/edam/note/#{user.shardId}"
       note_store = Evernote::NoteStore.new(note_store_url)
       return note_store, auth_token
     end

@@ -3,7 +3,7 @@
 <div class="container">
 <%= link_to(CONFIG['site_name'], root_path, class: "brand") %>
 <ul class="nav pull-right">
-<% CONFIG['links'].each do |link| %>
+<% CONFIG['header_links'].each do |link| %>
 <li class="divider-vertical"></li>
 <li><%= link_to(link['text'], add_trailing_slash(link['path'])) %></li>
 <% end %>
