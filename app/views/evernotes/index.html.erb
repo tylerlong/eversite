@@ -1,7 +1,7 @@
 <% provide(:title, @title) %>
 <table class="table table-striped">
 <% @notes.each do |note| %>
-<tr><td><%= link_to(note.title.force_encoding('utf-8'),
+<tr><td><%= format_timestamp(note.created) %></td><td><%= link_to(note.title.force_encoding('utf-8'),
   note_path(created: note.created/1000, trailing_slash: true)) %></td></tr>
 <% end %>
 </table>

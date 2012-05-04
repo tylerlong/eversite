@@ -1,5 +1,6 @@
 common: &common
   site_name: Eversite
+  time_zone: +8
 
   evernote:
     domain: www.evernote.com

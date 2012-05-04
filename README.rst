@@ -34,7 +34,6 @@ edit config/application.yml, change the following settings:
 todo list
 ---------
 - atom feed for note books
-- switch themes
 - tags cloud
 - pagination
 - blog entry snippet
