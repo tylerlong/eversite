@@ -1,5 +1,6 @@
 require 'evernote'
 require 'date'
+require 'nokogiri'
 
 class EvernotesController < ApplicationController
   def common
@@ -49,20 +50,27 @@ class EvernotesController < ApplicationController
       @@auth_token
     end
 
+    CONTENT_REGEXP = /<en-note[^>]*?>(.+?)<\/en-note>/m
+    def extract_content(content)
+      CONTENT_REGEXP =~ content
+      $1.force_encoding('utf-8')
+    end
+
+    def extract_snippet(content)
+      Nokogiri::HTML(content).text[0..128]
+    end
+
     def get_notes_list(notebook_name)
       notebook = note_store.listNotebooks(auth_token).select { |notebook| notebook.name.force_encoding('utf-8') == notebook_name }.first || not_found
       note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(notebookGuid: notebook.guid,
         order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: false)
       notes = note_store.findNotes(auth_token, note_filter, 0, 1000).notes
-      notes.map { |note| { title: note.title.force_encoding('utf-8'), created: note.created } }
+      notes.map { |note| { title: note.title.force_encoding('utf-8'), created: note.created, snippet: extract_snippet(get_note_by_guid(note.guid)[:content]) } }
     end
 
-    CONTENT_REGEXP = /<en-note[^>]*?>(.+?)<\/en-note>/m
-
     def get_note_by_guid(guid)
-      note = note_store.getNote(auth_token, guid, true, true, true, true) || not_found
-      CONTENT_REGEXP =~ note.content
-      { title: note.title.force_encoding('utf-8'), content: $1.force_encoding('utf-8') }
+      note = note_store.getNote(auth_token, guid, true, false, false, false) || not_found
+      { title: note.title.force_encoding('utf-8'), content: extract_content(note.content) }
     end
 
     def get_note_by_created(created)

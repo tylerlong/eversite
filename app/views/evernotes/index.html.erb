@@ -5,7 +5,10 @@
 <% @notes.each do |note| %>
   <div class="row entry-overview">
     <div class="span2 date"><%= format_timestamp(note[:created]) %></div>
-    <div class="span7"><%= link_to(note[:title], note_path(created: note[:created]/1000, trailing_slash: true)) %></div>
+    <div class="span7">
+      <%= link_to(note[:title], note_path(created: note[:created]/1000, trailing_slash: true)) %>
+      <br/><%= note[:snippet] %> ...
+    </div>
   </div>
 <% end %>
 </div>

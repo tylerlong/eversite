@@ -36,6 +36,6 @@ todo list
 - atom feed for note books
 - tags cloud
 - pagination
-- blog entry snippet
-- test image showing
+- image showing
 - use hashie to simplify hash accessing ?
+- show created and updated timestamp in show page
