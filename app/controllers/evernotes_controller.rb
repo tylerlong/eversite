@@ -3,19 +3,27 @@ require 'date'
 require 'nokogiri'
 
 class EvernotesController < ApplicationController
+  def handle_notebooks(name)
+    @notes = get_notes_list(name) || not_found
+    render 'index'
+  end
+
+  def handle_note(guid)
+    @note = get_note_by_guid(resource['guid']) || not_found
+    render 'show'
+  end
+
   def common
     link = CONFIG['header_links'].select { |link| add_trailing_slash(link['path']) == add_trailing_slash(request.path) }.first || not_found
     resource = link['resource']
     case resource['type']
-    when 'notebook'
-      @notes = get_notes_list(resource['name']) || not_found
-      @title = link['text']
-      return render 'index'
-    when 'note'
-      @note = get_note_by_guid(resource['guid']) || not_found
-      return render 'show'
-    else
-      not_found
+      when 'notebook'
+        @title = link['text']
+        handle_notebooks(resource['name'])
+      when 'note'
+        handle_note(resource['guid'])
+      else
+        not_found
     end
   end
 

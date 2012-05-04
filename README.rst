@@ -33,8 +33,9 @@ edit config/application.yml, change the following settings:
 
 todo list
 ---------
-- atom feed for note books
+- atom feed for note books (add rss icon to header links)
 - tags cloud
 - pagination
 - image showing
 - use hashie to simplify hash accessing ?
+- google analytics
