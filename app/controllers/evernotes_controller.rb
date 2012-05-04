@@ -8,7 +8,7 @@ class EvernotesController < ApplicationController
     @notes = get_notes_list(name, @page) || not_found
     if @notes.size > CONFIG['page_size']
       @has_next = true
-      @notes = @notes[0..@notes.size - 1]
+      @notes = @notes[0...@notes.size - 1]
     end
     render 'index'
   end
