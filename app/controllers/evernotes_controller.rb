@@ -70,7 +70,7 @@ class EvernotesController < ApplicationController
 
     def get_note_by_guid(guid)
       note = note_store.getNote(auth_token, guid, true, false, false, false) || not_found
-      { title: note.title.force_encoding('utf-8'), content: extract_content(note.content) }
+      { title: note.title.force_encoding('utf-8'), content: extract_content(note.content), created: note.created, updated: note.updated }
     end
 
     def get_note_by_created(created)

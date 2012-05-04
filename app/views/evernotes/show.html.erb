@@ -1,5 +1,6 @@
 <% provide(:title, @note[:title]) %>
 <h1><%= @note[:title] %></h1>
+<em>created at <%= format_timestamp(@note[:created]) %> | updated at <%= format_timestamp(@note[:updated]) %></em>
 <br/><br/>
 <%= raw @note[:content] %>
 <%= render 'disqus' %>

@@ -4,9 +4,9 @@
 <div class="span10 offset1">
 <% @notes.each do |note| %>
   <div class="row entry-overview">
-    <div class="span2 date"><%= format_timestamp(note[:created]) %></div>
+    <div class="span2 date"><%= raw format_timestamp(note[:created]).split.join('<br/>') %></div>
     <div class="span7">
-      <%= link_to(note[:title], note_path(created: note[:created]/1000, trailing_slash: true)) %>
+      <strong><%= link_to(note[:title], note_path(created: note[:created]/1000, trailing_slash: true)) %></strong>
       <br/><%= note[:snippet] %> ...
     </div>
   </div>

@@ -38,4 +38,3 @@ todo list
 - pagination
 - image showing
 - use hashie to simplify hash accessing ?
-- show created and updated timestamp in show page
