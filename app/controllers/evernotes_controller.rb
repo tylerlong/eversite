@@ -38,7 +38,9 @@ class EvernotesController < ApplicationController
     def get_notes_list(notebook_name)
       note_store, auth_token = authenticate
       notebook = note_store.listNotebooks(auth_token).select { |notebook| notebook.name.force_encoding('utf-8') == notebook_name }.first || not_found
-      note_store.findNotes(auth_token, Evernote::EDAM::NoteStore::NoteFilter.new(notebookGuid: notebook.guid), 0, 1000).notes
+      note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(notebookGuid: notebook.guid,
+        order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: false)
+      note_store.findNotes(auth_token, note_filter, 0, 1000).notes
     end
 
     CONTENT_REGEXP = /<en-note[^>]*?>(.+?)<\/en-note>/m
