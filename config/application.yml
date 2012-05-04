@@ -1,5 +1,6 @@
 common: &common
   site_name: Eversite
+
   evernote:
     domain: www.evernote.com
     config:
@@ -7,6 +8,10 @@ common: &common
       password: password
       consumer_key: tylerlong
       consumer_secret: c9a682d60f9a442c
+
+  disqus:
+    short_name: tylerlong
+
   header_links:
     - text: Blog
       path: /
@@ -33,6 +38,7 @@ common: &common
       resource:
         type: note
         guid: f0df80b6-70c2-4858-b916-6e09b20a080d
+
   footer_links:
     - text: Email
       url: mailto:mituzhishi@gmail.com
@@ -45,11 +51,14 @@ common: &common
     - text: Bitbucket
       url: https://bitbucket.org/tylerlong
 
+
 development:
   <<: *common
 
+
 test:
   <<: *common
+
 
 production:
   <<: *common
