@@ -35,25 +35,37 @@ class EvernotesController < ApplicationController
       return note_store, auth_token
     end
 
+    @@note_store = @@auth_token = nil
+    def note_store
+      if @@note_store.nil?
+        @@note_store, @@auth_token = authenticate
+      end
+      @@note_store
+    end
+    def auth_token
+      if @@auth_token.nil?
+        @@note_store, @@auth_token = authenticate
+      end
+      @@auth_token
+    end
+
     def get_notes_list(notebook_name)
-      note_store, auth_token = authenticate
       notebook = note_store.listNotebooks(auth_token).select { |notebook| notebook.name.force_encoding('utf-8') == notebook_name }.first || not_found
       note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(notebookGuid: notebook.guid,
         order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: false)
-      note_store.findNotes(auth_token, note_filter, 0, 1000).notes
+      notes = note_store.findNotes(auth_token, note_filter, 0, 1000).notes
+      notes.map { |note| { title: note.title.force_encoding('utf-8'), created: note.created } }
     end
 
     CONTENT_REGEXP = /<en-note[^>]*?>(.+?)<\/en-note>/m
 
     def get_note_by_guid(guid)
-      note_store, auth_token = authenticate
       note = note_store.getNote(auth_token, guid, true, true, true, true) || not_found
       CONTENT_REGEXP =~ note.content
       { title: note.title.force_encoding('utf-8'), content: $1.force_encoding('utf-8') }
     end
 
     def get_note_by_created(created)
-      note_store, auth_token = authenticate
       note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(words: "created:#{created}",
         order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: true)
       note = note_store.findNotes(auth_token, note_filter, 0, 1).notes.first || not_found
