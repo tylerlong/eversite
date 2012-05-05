@@ -54,3 +54,5 @@ todo list
 - use hashie to simplify hash accessing ?
 - thumbnail instead of snippet? (evernote has a thumbnail api)
 - use separate request for image showing
+- highlight the content of embeded code files
+- searching functionality

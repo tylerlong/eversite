@@ -1,9 +1,8 @@
 <% if Rails.env.development? %>
-<br/><br/><br/><br/><br/>
+<br/><br/>
 <pre class="debug_dump">
 method: <%= request.method %>
 original_url: <%= request.original_url %>
 params: <%= params %>
-path: <%= request.path %>
 </pre>
 <% end %>
