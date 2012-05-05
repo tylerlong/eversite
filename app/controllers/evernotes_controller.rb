@@ -3,20 +3,7 @@ require 'date'
 require 'nokogiri'
 
 class EvernotesController < ApplicationController
-  def handle_notebooks(name)
-    @page = (params[:page] || '1').to_i
-    @notes = get_notes_list(name, @page) || not_found
-    if @notes.size > CONFIG['page_size']
-      @has_next = true
-      @notes = @notes[0...@notes.size - 1]
-    end
-    render 'index'
-  end
 
-  def handle_note(guid)
-    @note = get_note_by_guid(guid, true) || not_found
-    render 'show'
-  end
 
   def common
     link = CONFIG['header_links'].select { |link| add_trailing_slash(link['path']) == add_trailing_slash(request.path) }.first || not_found
@@ -37,7 +24,27 @@ class EvernotesController < ApplicationController
     @note = get_note_by_created(created, true) || not_found
   end
 
+  def feed
+    respond_to do |format|
+      format.atom
+    end
+  end
+
   private
+
+    def handle_notebooks(name)
+      @page = (params[:page] || '1').to_i
+      @notes = get_notes_list(name, @page) || not_found
+      if @notes.size > CONFIG['page_size']
+        @has_next = true
+        @notes = @notes[0...@notes.size - 1]
+      end
+      render 'index'
+    end
+    def handle_note(guid)
+      @note = get_note_by_guid(guid, true) || not_found
+      render 'show'
+    end
 
     @@note_store = @@auth_token = @@shard_id = nil
     def authenticate

@@ -4,6 +4,7 @@ EverblogRails::Application.routes.draw do
 
   CONFIG['header_links'].each do |link|
     match link['path'], to: 'evernotes#common'
+    match File.join(link['path'], 'feed'), to: 'evernotes#feed' if link['resource']['type'] == 'notebook'
   end
 
   match '/:created/', to: 'evernotes#show', created: /[1-9]\d{9}/, as: :note
