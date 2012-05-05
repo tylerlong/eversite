@@ -8,6 +8,10 @@ module ApplicationHelper
   end
 
   def atom_feed_links
-    notebook_links = CONFIG['header_links'].filter{ |link| link['resource']['type'] == 'notebook' }
+    CONFIG['header_links'].select do |link|
+      link['resource']['type'] == 'notebook'
+    end.map do |link|
+      auto_discovery_link_tag(:atom, File.join(link['path'], 'feed/'), { title: "#{CONFIG['site_name']} #{link['text']}" })
+    end.join("\n")
   end
 end
