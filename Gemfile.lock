@@ -81,6 +81,7 @@ GEM
     guard-spork (0.6.0)
       guard (>= 0.10.0)
       spork (>= 0.8.4)
+    hashie (1.2.0)
     hike (1.2.1)
     i18n (0.6.0)
     journey (1.0.3)
@@ -179,6 +180,7 @@ DEPENDENCIES
   evernote (~> 1.2.0)!
   guard-rspec
   guard-spork
+  hashie
   jquery-rails
   libnotify
   nokogiri

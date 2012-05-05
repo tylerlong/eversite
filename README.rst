@@ -51,7 +51,6 @@ todo list
 ---------
 - atom feed for note books (add rss icon to header links)
 - tags cloud
-- use hashie to simplify hash accessing ?
 - thumbnail instead of snippet? (evernote has a thumbnail api)
 - use separate request for image showing
 - highlight the content of embeded code files
