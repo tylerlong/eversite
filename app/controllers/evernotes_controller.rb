@@ -96,7 +96,7 @@ class EvernotesController < ApplicationController
       note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(notebookGuid: notebook.guid,
         order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: false)
       notes = note_store.findNotes(auth_token, note_filter, (page - 1) * CONFIG['page_size'], CONFIG['page_size'] + 1).notes
-      notes.map { |note| Hashie::Mash.new { title: note.title.force_encoding('utf-8'), created: note.created, snippet: extract_snippet(get_note_by_guid(note.guid, false)[:content]) } }
+      notes.map { |note| Hashie::Mash.new({ title: note.title.force_encoding('utf-8'), created: note.created, snippet: extract_snippet(get_note_by_guid(note.guid, false)[:content]) }) }
     end
 
     def get_note_by_guid(guid, with_resource_data = false)
