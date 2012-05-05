@@ -56,3 +56,5 @@ todo list
 - use separate request for image showing
 - highlight the content of embeded code files
 - searching functionality
+- add integration tests
+- submit to oschina.net

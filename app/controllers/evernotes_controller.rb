@@ -72,11 +72,9 @@ class EvernotesController < ApplicationController
     def embed_images(note)
       return note if note[:resources].nil?
       note[:resources].each do |resource|
-        if !resource.mime.start_with?('image/')
-          next
-        end
+        next if resource.data.body.nil? || !resource.mime.start_with?('image/')
         image_regex = Regexp.new(IMAGE_REGEXP_STR.sub('#md5#', resource.data.bodyHash.unpack('H*')[0]))
-        note[:content] = note[:content].sub(image_regex, "<img src='data:image/png;base64,#{ActiveSupport::Base64.encode64(resource.data.body)}'/>")
+        note[:content] = note[:content].sub(image_regex, "<img src='data:image/png;base64,#{Base64.encode64(resource.data.body)}'/>")
       end
       note
     end

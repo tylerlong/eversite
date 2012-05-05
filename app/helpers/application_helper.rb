@@ -6,4 +6,8 @@ module ApplicationHelper
       "#{path}/"
     end
   end
+
+  def atom_feed_links
+    notebook_links = CONFIG['header_links'].filter{ |link| link['resource']['type'] == 'notebook' }
+  end
 end
