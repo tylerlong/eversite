@@ -14,7 +14,7 @@ class EvernotesController < ApplicationController
   end
 
   def handle_note(guid)
-    @note = get_note_by_guid(guid) || not_found
+    @note = get_note_by_guid(guid, true) || not_found
     render 'show'
   end
 
@@ -34,33 +34,28 @@ class EvernotesController < ApplicationController
 
   def show
     created = DateTime.strptime(params[:created], '%s').strftime('%Y%m%dT%H%M%SZ')
-    @note = get_note_by_created(created) || not_found
+    @note = get_note_by_created(created, true) || not_found
   end
 
   private
 
+    @@note_store = @@auth_token = @@shard_id = nil
     def authenticate
       user_store_url = "https://#{CONFIG['evernote']['domain']}/edam/user"
       user_store = Evernote::UserStore.new(user_store_url, CONFIG['evernote']['config'])
       authentication = user_store.authenticate
-      user, auth_token = authentication.user, authentication.authenticationToken
-      note_store_url = "http://#{CONFIG['evernote']['domain']}/edam/note/#{user.shardId}"
-      note_store = Evernote::NoteStore.new(note_store_url)
-      return note_store, auth_token
+      @@shard_id, @@auth_token = authentication.user.shardId, authentication.authenticationToken
+      note_store_url = "http://#{CONFIG['evernote']['domain']}/edam/note/#{@@shard_id}"
+      @@note_store = Evernote::NoteStore.new(note_store_url)
     end
-
-    @@note_store = @@auth_token = nil
     def note_store
-      if @@note_store.nil?
-        @@note_store, @@auth_token = authenticate
-      end
-      @@note_store
+      @@note_store || authenticate || @@note_store
     end
     def auth_token
-      if @@auth_token.nil?
-        @@note_store, @@auth_token = authenticate
-      end
-      @@auth_token
+      @@auth_token || authenticate || @@auth_token
+    end
+    def shard_id
+      @@shard_id || authenticate || @@shard_id
     end
 
     CONTENT_REGEXP = /<en-note[^>]*?>(.+?)<\/en-note>/m
@@ -73,23 +68,41 @@ class EvernotesController < ApplicationController
       Nokogiri::HTML(content).text[0..192]
     end
 
+    IMAGE_REGEXP_STR = '<en-media hash="#md5#" .*? type="image/png".*?/>'
+    def embed_images(note)
+      note[:resources].each do |resource|
+        if !resource.mime.start_with?('image/')
+          next
+        end
+        image_regex = Regexp.new(IMAGE_REGEXP_STR.sub('#md5#', resource.data.bodyHash.unpack('H*')[0]))
+        note[:content] = note[:content].sub(image_regex, "<img src='data:image/png;base64,#{ActiveSupport::Base64.encode64(resource.data.body)}'/>")
+      end
+      note
+    end
+
     def get_notes_list(notebook_name, page)
       notebook = note_store.listNotebooks(auth_token).select { |notebook| notebook.name.force_encoding('utf-8') == notebook_name }.first || not_found
       note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(notebookGuid: notebook.guid,
         order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: false)
       notes = note_store.findNotes(auth_token, note_filter, (page - 1) * CONFIG['page_size'], CONFIG['page_size'] + 1).notes
-      notes.map { |note| { title: note.title.force_encoding('utf-8'), created: note.created, snippet: extract_snippet(get_note_by_guid(note.guid)[:content]) } }
+      notes.map { |note| { title: note.title.force_encoding('utf-8'), created: note.created, snippet: extract_snippet(get_note_by_guid(note.guid, false)[:content]) } }
     end
 
-    def get_note_by_guid(guid)
-      note = note_store.getNote(auth_token, guid, true, false, false, false) || not_found
-      { title: note.title.force_encoding('utf-8'), content: extract_content(note.content), created: note.created, updated: note.updated }
+    def get_note_by_guid(guid, with_resource_data = false)
+      note = note_store.getNote(auth_token, guid, true, with_resource_data, false, false) || not_found
+      note = { title: note.title.force_encoding('utf-8'), content: extract_content(note.content),
+        created: note.created, updated: note.updated, resources: note.resources }
+      if with_resource_data
+        embed_images(note)
+      else
+        note
+      end
     end
 
-    def get_note_by_created(created)
+    def get_note_by_created(created, with_resource_data = false)
       note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(words: "created:#{created}",
         order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: true)
       note = note_store.findNotes(auth_token, note_filter, 0, 1).notes.first || not_found
-      get_note_by_guid(note.guid)
+      get_note_by_guid(note.guid, with_resource_data)
     end
 end
