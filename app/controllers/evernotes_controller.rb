@@ -4,9 +4,10 @@ require 'nokogiri'
 
 class EvernotesController < ApplicationController
 
-
   def common
-    link = CONFIG['header_links'].select { |link| add_trailing_slash(link['path']) == add_trailing_slash(request.path) }.first || not_found
+    link = CONFIG['header_links'].select do |link|
+      add_trailing_slash(link['path']) == first_token(request.path)
+    end.first || not_found
     resource = link['resource']
     case resource['type']
       when 'notebook'
@@ -24,13 +25,14 @@ class EvernotesController < ApplicationController
     @note = get_note_by_created(created, true) || not_found
   end
 
-  def feed
-    respond_to do |format|
-      format.atom
-    end
-  end
 
   private
+
+    def first_token(path)
+      token = path.split('/').select{ |token| !token.blank? }.first
+      return '/'  if token.nil? || token.include?('.')
+      return "/#{token}/"
+    end
 
     def handle_notebooks(name)
       @page = (params[:page] || '1').to_i
@@ -39,7 +41,10 @@ class EvernotesController < ApplicationController
         @has_next = true
         @notes = @notes[0...@notes.size - 1]
       end
-      render 'index'
+      respond_to do |format|
+        format.html { render 'index' }
+        format.atom { render 'index'}
+      end
     end
     def handle_note(guid)
       @note = get_note_by_guid(guid, true) || not_found
