@@ -14,6 +14,9 @@ common: &common
   disqus:
     shortname: tylerlong
 
+  google_analytics:
+    tracking_id: UA-28950403-1
+
   header_links:
     - text: Blog
       path: /
