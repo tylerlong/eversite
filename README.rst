@@ -49,7 +49,6 @@ how to find the guid of a note
 
 todo list
 ---------
-- atom feed for note books (add rss icon to header links)
 - tags cloud
 - thumbnail instead of snippet? (evernote has a thumbnail api)
 - use separate request for image showing
@@ -57,3 +56,5 @@ todo list
 - searching functionality
 - add integration tests
 - submit to oschina.net
+- migrate my blog to eversite platform
+- default https
