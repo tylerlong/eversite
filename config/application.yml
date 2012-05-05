@@ -1,7 +1,7 @@
 common: &common
   site_name: Eversite
   time_zone: +8
-  page_size: 8
+  page_size: 6
 
   evernote:
     domain: www.evernote.com

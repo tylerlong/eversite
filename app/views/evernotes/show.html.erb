@@ -3,7 +3,7 @@
 <div class="row">
 <div class="offset1 span8">
 <h1><%= @note[:title] %></h1>
-<em>created at <%= format_timestamp(@note[:created]) %> | updated at <%= format_timestamp(@note[:updated]) %></em>
+<div class="meta">created at <%= format_timestamp(@note[:created]) %>, updated at <%= format_timestamp(@note[:updated]) %></div>
 <br/><br/>
 <%= raw @note[:content] %>
 <%= render 'disqus' %>

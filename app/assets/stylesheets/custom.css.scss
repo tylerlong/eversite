@@ -11,7 +11,7 @@
 
 // Other self-defined styles goes below
 div.entry-overview {
-  margin-bottom: 25px;
+  margin-bottom: 28px;
 }
 
 div.date {
@@ -23,4 +23,8 @@ div.bordered {
   border-style: none dashed;
   border-width: 1px;
   border-color: $grayLight
+}
+
+div.meta {
+  color: $gray;
 }

@@ -70,7 +70,7 @@ class EvernotesController < ApplicationController
     end
 
     def extract_snippet(content)
-      Nokogiri::HTML(content).text[0..128]
+      Nokogiri::HTML(content).text[0..192]
     end
 
     def get_notes_list(notebook_name, page)
