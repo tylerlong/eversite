@@ -1,1 +1,1 @@
-CONFIG = Hashie.Mash.new(YAML.load_file(Rails.root.join("config", "application.yml"))[Rails.env])
+CONFIG = Hashie::Mash.new(YAML.load_file(Rails.root.join("config", "application.yml"))[Rails.env])
