@@ -70,6 +70,7 @@ class EvernotesController < ApplicationController
 
     IMAGE_REGEXP_STR = '<en-media hash="#md5#" .*? type="image/png".*?/>'
     def embed_images(note)
+      return note if note[:resources].nil?
       note[:resources].each do |resource|
         if !resource.mime.start_with?('image/')
           next
@@ -92,11 +93,7 @@ class EvernotesController < ApplicationController
       note = note_store.getNote(auth_token, guid, true, with_resource_data, false, false) || not_found
       note = { title: note.title.force_encoding('utf-8'), content: extract_content(note.content),
         created: note.created, updated: note.updated, resources: note.resources }
-      if with_resource_data
-        embed_images(note)
-      else
-        note
-      end
+      embed_images(note)
     end
 
     def get_note_by_created(created, with_resource_data = false)
