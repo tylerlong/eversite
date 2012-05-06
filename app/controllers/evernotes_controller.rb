@@ -2,8 +2,59 @@ require 'evernote'
 require 'date'
 require 'nokogiri'
 
+module EvernoteAuthentication
+  @@updated = 1.year.ago
+  def authenticate
+    user_store_url = "https://#{CONFIG['evernote']['domain']}/edam/user"
+    user_store = Evernote::UserStore.new(user_store_url, CONFIG['evernote']['config'])
+    authentication = user_store.authenticate
+    @@shard_id, @@auth_token = authentication.user.shardId, authentication.authenticationToken
+    note_store_url = "http://#{CONFIG['evernote']['domain']}/edam/note/#{@@shard_id}"
+    @@note_store = Evernote::NoteStore.new(note_store_url)
+    @@updated = 1.second.ago
+  end
+  def note_store
+    @@note_store
+  end
+  def auth_token
+    @@auth_token
+  end
+  def shard_id
+    @@shard_id
+  end
+  def session_timeout_check
+    authenticate if 1.second.ago - @@updated > 2400 # refresh authentication every 40 minutes.
+  end
+end
+
+module EvernoteHelper
+  def get_notes_list(notebook_name, page)
+    notebook = note_store.listNotebooks(auth_token).select { |notebook| notebook.name.force_encoding('utf-8') == notebook_name }.first || not_found
+    note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(notebookGuid: notebook.guid,
+      order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: false)
+    notes = note_store.findNotes(auth_token, note_filter, (page - 1) * CONFIG['page_size'], CONFIG['page_size'] + 1).notes
+    notes.map { |note| Hashie::Mash.new({ title: note.title.force_encoding('utf-8'),
+      created: note.created, snippet: extract_snippet(get_note_by_guid(note.guid, false)[:content]),
+      updated: note.updated }) }
+  end
+
+  def get_note_by_guid(guid, with_resource_data = false)
+    note = note_store.getNote(auth_token, guid, true, with_resource_data, false, false) || not_found
+    note = { title: note.title.force_encoding('utf-8'), content: extract_content(note.content),
+      created: note.created, updated: note.updated, resources: note.resources }
+    embed_images(note)
+  end
+
+  def get_note_by_created(created, with_resource_data = false)
+    note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(words: "created:#{created}",
+      order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: true)
+    note = note_store.findNotes(auth_token, note_filter, 0, 1).notes.first || not_found
+    get_note_by_guid(note.guid, with_resource_data)
+  end
+end
+
 class EvernotesController < ApplicationController
-  after_filter :clear_authentication
+  before_filter :session_timeout_check
 
   def common
     link = CONFIG['header_links'].select do |link|
@@ -29,6 +80,9 @@ class EvernotesController < ApplicationController
 
   private
 
+    include EvernoteAuthentication
+    include EvernoteHelper
+
     def first_token(path)
       token = path.split('/').select{ |token| !token.blank? }.first
       return '/'  if token.nil? || token.include?('.')
@@ -52,28 +106,6 @@ class EvernotesController < ApplicationController
       render 'show'
     end
 
-    @@note_store = @@auth_token = @@shard_id = nil
-    def authenticate
-      user_store_url = "https://#{CONFIG['evernote']['domain']}/edam/user"
-      user_store = Evernote::UserStore.new(user_store_url, CONFIG['evernote']['config'])
-      authentication = user_store.authenticate
-      @@shard_id, @@auth_token = authentication.user.shardId, authentication.authenticationToken
-      note_store_url = "http://#{CONFIG['evernote']['domain']}/edam/note/#{@@shard_id}"
-      @@note_store = Evernote::NoteStore.new(note_store_url)
-    end
-    def note_store
-      @@note_store || authenticate || @@note_store
-    end
-    def auth_token
-      @@auth_token || authenticate || @@auth_token
-    end
-    def shard_id
-      @@shard_id || authenticate || @@shard_id
-    end
-    def clear_authentication
-      @@note_store = @@auth_token = @@shard_id = nil
-    end
-
     CONTENT_REGEXP = /<en-note[^>]*?>(.+?)<\/en-note>/m
     def extract_content(content)
       CONTENT_REGEXP =~ content
@@ -93,29 +125,5 @@ class EvernotesController < ApplicationController
         note[:content] = note[:content].sub(image_regex, "<img src='data:image/png;base64,#{Base64.encode64(resource.data.body)}'/>")
       end
       note
-    end
-
-    def get_notes_list(notebook_name, page)
-      notebook = note_store.listNotebooks(auth_token).select { |notebook| notebook.name.force_encoding('utf-8') == notebook_name }.first || not_found
-      note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(notebookGuid: notebook.guid,
-        order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: false)
-      notes = note_store.findNotes(auth_token, note_filter, (page - 1) * CONFIG['page_size'], CONFIG['page_size'] + 1).notes
-      notes.map { |note| Hashie::Mash.new({ title: note.title.force_encoding('utf-8'),
-        created: note.created, snippet: extract_snippet(get_note_by_guid(note.guid, false)[:content]),
-        updated: note.updated }) }
-    end
-
-    def get_note_by_guid(guid, with_resource_data = false)
-      note = note_store.getNote(auth_token, guid, true, with_resource_data, false, false) || not_found
-      note = { title: note.title.force_encoding('utf-8'), content: extract_content(note.content),
-        created: note.created, updated: note.updated, resources: note.resources }
-      embed_images(note)
-    end
-
-    def get_note_by_created(created, with_resource_data = false)
-      note_filter = Evernote::EDAM::NoteStore::NoteFilter.new(words: "created:#{created}",
-        order: Evernote::EDAM::Type::NoteSortOrder::CREATED, ascending: true)
-      note = note_store.findNotes(auth_token, note_filter, 0, 1).notes.first || not_found
-      get_note_by_guid(note.guid, with_resource_data)
     end
 end
