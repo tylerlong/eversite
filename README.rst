@@ -1,14 +1,13 @@
 eversite
 ========
-build and maintain your website right inside your evernote.
+Build and maintain your website right inside your evernote.
 
 |
 
 live demo
 ---------
-My blog: http://www.tylerlong.me
-|
-Actually eversite is not limited to building blogs. It's a general purpose CMS system.
+| My blog: http://www.tylerlong.me
+| Actually eversite is not limited to building blogs. It's a general purpose CMS system.
 
 |
 
@@ -19,6 +18,7 @@ features
 - HTML5 + bootstrap for UI, clean and clear.
 - support atom feed automatically.
 
+|
 
 quick start
 -----------
