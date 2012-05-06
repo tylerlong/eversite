@@ -4,6 +4,7 @@
 <div class="offset1 span8">
 <h1><%= @note[:title] %></h1>
 <div class="meta">created at <%= format_timestamp(@note[:created]) %>, updated at <%= format_timestamp(@note[:updated]) %></div>
+<div class="tags"><%= show_tags(@note) %></div>
 <br/><br/>
 <%= raw @note[:content] %>
 <%= render 'disqus' %>

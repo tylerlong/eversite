@@ -61,8 +61,8 @@ how to find the guid of a note
 
 todo list
 ---------
+- search by tags
 - tags cloud
-- tags for each blog entry
 - use separate request for image showing
 - highlight the content of embeded code files
 - searching functionality

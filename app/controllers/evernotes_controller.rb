@@ -38,10 +38,15 @@ module EvernoteHelper
       updated: note.updated }) }
   end
 
+  def get_tags_by_note_guid(guid)
+    note_store.getNoteTagNames(auth_token, guid)
+  end
+
   def get_note_by_guid(guid, with_resource_data = false)
     note = note_store.getNote(auth_token, guid, true, with_resource_data, false, false) || not_found
     note = { title: note.title.force_encoding('utf-8'), content: extract_content(note.content),
-      created: note.created, updated: note.updated, resources: note.resources }
+      created: note.created, updated: note.updated, resources: note.resources,
+      tags: get_tags_by_note_guid(note.guid) }
     embed_images(note)
   end
 
