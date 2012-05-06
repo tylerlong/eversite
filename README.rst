@@ -7,9 +7,18 @@ build and maintain your website right inside your evernote.
 live demo
 ---------
 My blog: http://www.tylerlong.me
+|
 Actually eversite is not limited to building blogs. It's a general purpose CMS system.
 
 |
+
+features
+--------
+- does NOT require database.
+- manage EVERY thing in your evernote client: create pages, modify pages, delete pages...etc.
+- HTML5 + bootstrap for UI, clean and clear.
+- support atom feed automatically.
+
 
 quick start
 -----------
@@ -24,7 +33,9 @@ quick start
 
 configuration
 -------------
-edit config/application.yml, change the following settings:
+edit `config/application.yml`_, change the following settings:
+
+.. _`config/application.yml`: https://github.com/tylerlong/eversite/blob/master/config/application.yml
 
 - site_name: the name of your website
 - time_zone: your local time zone
@@ -35,8 +46,8 @@ edit config/application.yml, change the following settings:
 - evernote consumer_secret
 - disqus shortname
 - google analytics tracking id
-- header_links: links show on the header
-- footer_links: links show on the footer
+- header_links: links shown on the header
+- footer_links: links shown on the footer
 
 |
 
@@ -51,11 +62,9 @@ how to find the guid of a note
 todo list
 ---------
 - tags cloud
-- thumbnail instead of snippet? (evernote has a thumbnail api)
+- tags for each blog entry
 - use separate request for image showing
 - highlight the content of embeded code files
 - searching functionality
 - add integration tests
 - submit to oschina.net
-- default https ?
-- refactor evernote authentication code, cache result for 30 minutes.
