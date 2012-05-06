@@ -3,7 +3,7 @@ require 'date'
 require 'nokogiri'
 
 class EvernotesController < ApplicationController
-  after_filter: clear_authentication
+  after_filter :clear_authentication
 
   def common
     link = CONFIG['header_links'].select do |link|

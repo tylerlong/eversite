@@ -58,3 +58,4 @@ todo list
 - add integration tests
 - submit to oschina.net
 - default https ?
+- refactor evernote authentication code, cache result for 30 minutes.
