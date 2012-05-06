@@ -6,7 +6,8 @@ build and maintain your website right inside your evernote.
 
 live demo
 ---------
-http://tylerlong.herokuapp.com
+My blog: http://www.tylerlong.me
+Actually eversite is not limited to building blogs. It's a general purpose CMS system.
 
 |
 
@@ -56,5 +57,4 @@ todo list
 - searching functionality
 - add integration tests
 - submit to oschina.net
-- migrate my blog to eversite platform
-- default https
+- default https ?

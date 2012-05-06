@@ -3,6 +3,7 @@ require 'date'
 require 'nokogiri'
 
 class EvernotesController < ApplicationController
+  after_filter: clear_authentication
 
   def common
     link = CONFIG['header_links'].select do |link|
@@ -68,6 +69,9 @@ class EvernotesController < ApplicationController
     end
     def shard_id
       @@shard_id || authenticate || @@shard_id
+    end
+    def clear_authentication
+      @@note_store = @@auth_token = @@shard_id = nil
     end
 
     CONTENT_REGEXP = /<en-note[^>]*?>(.+?)<\/en-note>/m
