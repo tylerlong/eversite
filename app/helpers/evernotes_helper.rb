@@ -5,7 +5,7 @@ module EvernotesHelper
     dt.strftime('%Y-%m-%d %H:%M:%S')
   end
   def show_tags(note)
-    return '' if note.nil? || note[:tags].nil?
+    return '' if note.nil? || note[:tags].nil? || note[:tags].empty?
     "This entry was tagged #{note[:tags].join(', ')}."
   end
 end
