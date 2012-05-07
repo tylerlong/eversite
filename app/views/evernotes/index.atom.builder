@@ -12,7 +12,7 @@ atom_feed(url: request.url) do |feed|
     note.published = DateTime.strptime((note.created / 1000).to_s, '%s').to_time
     feed.entry(note, note) do |entry|
       entry.title(note['title'])
-      entry.content(note.snippet, type: 'text')
+      entry.content("#{note.snippet} ... <a href=\"#{note.url}\" target=\"_blank\">Read more</a>", type: 'html')
       entry.author do |author|
         author.name(CONFIG['site_name'])
         author.uri("http://#{request.host_with_port}")
