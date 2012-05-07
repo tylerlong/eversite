@@ -6,6 +6,6 @@ module EvernotesHelper
   end
   def show_tags(note)
     return '' if note.nil? || note[:tags].nil? || note[:tags].empty?
-    "This entry was tagged #{note[:tags].join(', ')}."
+    "This entry was tagged #{note[:tags].join(', ')}.".force_encoding('utf-8')
   end
 end
