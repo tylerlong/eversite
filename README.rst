@@ -68,3 +68,5 @@ todo list
 - searching functionality
 - add integration tests
 - submit to oschina.net
+- resolve font inconsistent problem
+- add my avatar to the banner
