@@ -2,28 +2,27 @@ eversite
 ========
 Build and maintain your website right inside your evernote.
 
-|
 
 live demo
 ---------
 | My blog: http://www.tylerlong.me
-| Actually eversite is not limited to building blogs. It's a general purpose CMS system.
+| Actually eversite is not limited to building blogs but It's a general purpose CMS system.
 
 |
 
 features
 --------
-- does NOT require database.
-- manage EVERY thing in your evernote client: create pages, modify pages, delete pages...etc.
-- HTML5 + bootstrap for UI, clean and clear.
-- support atom feed automatically.
+* does NOT require database.
+* manage EVERY thing in your evernote client: create pages, modify pages, delete pages...etc.
+* HTML5 + bootstrap for UI, clean and clear.
+* support atom feed automatically.
 
 |
 
 quick start
 -----------
 
-1. git clone git://github.com/tylerlong/eversite.git && cd eversite
+#. git clone git://github.com/tylerlong/eversite.git && cd eversite
 #. bundle install --binstubs ./bundler_stubs && cd .. && cd -
 #. modify file config/application.yml
 #. rails s
@@ -53,7 +52,7 @@ edit `config/application.yml`_, change the following settings:
 
 how to find the guid of a note
 ------------------------------
-1. In you evernote desktop client, select the note.
+#. In you evernote desktop client, select the note.
 #. Right click, select "Copy Note link".
 #. Past the link to notepad, and you will see the guid.
 
